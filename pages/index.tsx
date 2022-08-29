@@ -120,12 +120,12 @@ const Home: NextPage = () => {
           coinType: 118,
         },
         bech32Config: {
-          bech32PrefixAccAddr: "cosmos",
-          bech32PrefixAccPub: "cosmos" + "pub",
-          bech32PrefixValAddr: "cosmos" + "valoper",
-          bech32PrefixValPub: "cosmos" + "valoperpub",
-          bech32PrefixConsAddr: "cosmos" + "valcons",
-          bech32PrefixConsPub: "cosmos" + "valconspub",
+          bech32PrefixAccAddr: "sei",
+          bech32PrefixAccPub: "sei" + "pub",
+          bech32PrefixValAddr: "sei" + "valoper",
+          bech32PrefixValPub: "sei" + "valoperpub",
+          bech32PrefixConsAddr: "sei" + "valcons",
+          bech32PrefixConsPub: "sei" + "valconspub",
         },
         currencies: [
           {

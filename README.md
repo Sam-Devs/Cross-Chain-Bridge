@@ -3,7 +3,12 @@ A simple cross-chain bridge that supports from Ethereum chain (Ropsten) to Sei c
 
 ## Run App
 Install Packages
-``` yarn ```
+``` 
+yarn 
+
+```
 
 Run localhost
-``` yarn dev ```
+``` 
+yarn dev 
+```

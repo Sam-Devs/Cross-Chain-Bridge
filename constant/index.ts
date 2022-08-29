@@ -1,0 +1,10 @@
+export const chainName = "SEI Testnet";
+export const chainId = "atlantic-1";
+export const lcdURL = "https://sei-chain-incentivized.com/sei-chain-app";
+export const tendermintURL = "https://sei-chain-incentivized.com/sei-chain-tm/";
+export const contractAddress = "0xBC6fcce7c5487d43830a219CA6E7B83238B41e71";
+export const assetName = "uausdc";
+export const sourceChain = "Ethereum";
+export const destinationChain = "Sei";
+export const ropstenProvider = "https://ropsten.infura.io/v3/a4812158fbab4a2aaa849e6f4a6dc605";
+export const privateKey = "32402722f3c9fd272ccf37993817bdbc9f92a3309167e8cb1a26a5f3ca3de3a6";

@@ -1,14 +1,13 @@
 import React from "react";
-import { chains } from "../utils/chains";
 
 const Card = ({
-  account,
   sendToken,
   connectKeplr,
   loading,
   seiAddress,
   setAmount,
-  amount
+  amount,
+  setSeiAddress
 }: any) => {
   return (
     <div className="p-6 max-w-lg bg-gray-700 rounded-lg border mt-20">
@@ -18,13 +17,13 @@ const Card = ({
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="white"
           className="w-6 h-6 cursor-pointer"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"
           />
         </svg>
@@ -45,14 +44,14 @@ const Card = ({
                 className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                 />
               </svg>
             </div>
           </div>
-          <span className="text-sm text-white">Max: 0.0 aUSDC</span>
+          {/* <span className="text-sm text-white">Max: 0.0 aUSDC</span> */}
         </div>
 
         <div className="flex bg-gray-900 rounded-lg">
@@ -65,10 +64,10 @@ const Card = ({
             className="bg-transparent text-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
           <div className="flex p-2 w-48 items-center justify-between rounded-lg cursor-pointer hover:bg-blue-500">
-            <img alt="token" src="/usdt.png" className="h-6 sm:h-8" />
+            <img alt="token" src="https://trade.vortexprotocol.io/images/tokens/aUSDC.png" className="h-6 sm:h-8" />
             <div className="flex flex-col">
               <div className="flex justify-between">
-                <span className="text-gray-50">USDT</span>
+                <span className="text-gray-50">aUSDC</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -78,13 +77,13 @@ const Card = ({
                   className="w-6 h-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                   />
                 </svg>
               </div>
-              <span className="text-gray-100">USD Tether</span>
+              <span className="text-gray-100">USD Coin</span>
             </div>
           </div>
         </div>
@@ -95,13 +94,13 @@ const Card = ({
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="w-6 h-6"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
             />
           </svg>
@@ -126,8 +125,8 @@ const Card = ({
                   className="w-6 h-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                   />
                 </svg>
@@ -147,38 +146,16 @@ const Card = ({
               id="default-input"
               placeholder="Sei Address"
               value={seiAddress}
+              onChange={(e) => setSeiAddress(e.target.value)}
               className="bg-transparent text-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
-            {/* <div className="flex p-2 w-48 items-center justify-between rounded-lg cursor-pointer hover:bg-blue-500">
-              <img alt="token" src="/usdt.png" className="h-6 sm:h-8" />
-              <div className="flex flex-col">
-                <div className="flex justify-between">
-                  <span className="text-gray-50">USDT</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="white"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
-                </div>
-                <span className="text-gray-100">USD Tether</span>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
 
       <button
         type="button"
-        onClick={() => sendToken(chains, account)}
+        onClick={() => sendToken()}
         className="w-full mt-5 text-white bg-gray-900 outline-none font-medium rounded-lg text-md px-5 py-4 text-center inline-flex items-center justify-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2"
       >
         {loading ? "Bridging..." : "Bridge"}

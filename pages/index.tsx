@@ -4,25 +4,24 @@ import Card from "../components/Card";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
-
+import Moralis from "moralis-v1";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
-// import { IERC20 } from "../utils/IERC20.json";
-import IAxelarGateway from "../utils/IAxelarGateway.json";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { sdk } from "../utils/bridge";
 import {
+  appId,
   assetName,
   chainId,
   chainName,
   contractAddress,
   destinationChain,
   lcdURL,
-  privateKey,
-  ropstenProvider,
+  serverUrl,
   sourceChain,
   tendermintURL,
 } from "../constant";
-import { balanceOf } from "../utils/balance";
 
 let web3modal: Web3Modal;
 if (typeof window !== "undefined") {
@@ -38,50 +37,51 @@ const Home: NextPage = () => {
   const [amount, setAmount] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    Moralis.start({ serverUrl, appId });
+  }, []);
+
+  const CustomToastWithLink = (txHash: string | undefined) => (
+    <div>
+      Transaction Successful! <br />
+      <a
+        className="text-blue-600"
+        href={`https://ropsten.etherscan.io/tx/${txHash}`}
+        target="_blank"
+      >
+        Check Explorer
+      </a>
+    </div>
+  );
+
   const sendToken = async () => {
     try {
-      setLoading(true);
-      const depositAddress = await sdk.getDepositAddress(
-        sourceChain,
-        destinationChain,
-        seiAddress,
-        assetName
-      );
+      if (amount === "" || seiAddress === "") {
+        toast.info("All Fields are required");
+      } else {
+        setLoading(true);
+        await Moralis.authenticate({ signingMessage: "Connect Metamask" });
+        const depositAddress = await sdk.getDepositAddress(
+          sourceChain,
+          destinationChain,
+          seiAddress,
+          assetName
+        );
 
-      const web3 = new Web3(ropstenProvider);
+        const options: any = {
+          type: "erc20",
+          amount: Moralis.Units.Token(amount, 6),
+          receiver: depositAddress,
+          contractAddress: contractAddress,
+        };
 
-      const accounts = await web3.eth.getAccounts();
-
-      const contract = new web3.eth.Contract(
-        IAxelarGateway.abi,
-        contractAddress
-      );
-
-      console.log("CONTRACT", contract);
-
-      const amountHex = web3.utils.toHex(amount);
-
-      const tx = {
-        from: accounts[0],
-        to: contractAddress,
-        gas: web3.utils.toHex("50000"),
-        data: contract.methods
-          .sendToken("Ethereum", depositAddress, "aUSDC", amountHex)
-          .encodeABI(),
-        chainId: 3,
-        value: 0,
-      };
-
-      const signature = await web3.eth.accounts.signTransaction(tx, privateKey);
-
-      const receipt = await web3.eth.sendSignedTransaction(
-        signature.rawTransaction
-      );
-
-      console.log(receipt);
+        let result = await Moralis.transfer(options);
+        toast.success(CustomToastWithLink(result.hash));
+        setLoading(false);
+      }
+    } catch (error: any) {
       setLoading(false);
-    } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -120,12 +120,12 @@ const Home: NextPage = () => {
           coinType: 118,
         },
         bech32Config: {
-          bech32PrefixAccAddr: "sei",
-          bech32PrefixAccPub: "sei" + "pub",
-          bech32PrefixValAddr: "sei" + "valoper",
-          bech32PrefixValPub: "sei" + "valoperpub",
-          bech32PrefixConsAddr: "sei" + "valcons",
-          bech32PrefixConsPub: "sei" + "valconspub",
+          bech32PrefixAccAddr: prefix,
+          bech32PrefixAccPub: `${prefix}pub`,
+          bech32PrefixValAddr: `${prefix}valoper`,
+          bech32PrefixValPub: `${prefix}valoperpub`,
+          bech32PrefixConsAddr: `${prefix}valcons`,
+          bech32PrefixConsPub: `${prefix}valconspub`,
         },
         currencies: [
           {
@@ -173,6 +173,19 @@ const Home: NextPage = () => {
             coinMinimalDenom: "usei",
             coinDecimals: 6,
           },
+          {
+            coinDenom: "aUSDC",
+            coinMinimalDenom:
+              "ibc/6D45A5CD1AADE4B527E459025AC1A5AEF41AE99091EF3069F3FEAACAFCECCD21",
+            coinDecimals: 6,
+            coinGeckoId: "usd-coin",
+          },
+          {
+            coinDenom: "aUSDC",
+            coinMinimalDenom: "uausdc",
+            coinDecimals: 6,
+            coinGeckoId: "usd-coin",
+          },
         ],
         stakeCurrency: {
           coinDenom: "SEI",
@@ -188,7 +201,7 @@ const Home: NextPage = () => {
 
     await window.keplr.enable(chainId);
 
-    const sendingSigner = await window.keplr.getOfflineSigner(chainId);
+    const sendingSigner = window.keplr.getOfflineSigner(chainId);
     if (!sendingSigner)
       throw new Error(`Failed to get sendingSigner for ${chainId}`);
 
@@ -199,7 +212,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -217,9 +230,11 @@ const Home: NextPage = () => {
           setAmount={setAmount}
           amount={amount}
           seiAddress={seiAddress}
+          setSeiAddress={setSeiAddress}
         />
       </div>
       <Footer />
+      <ToastContainer autoClose={false} />
     </div>
   );
 };

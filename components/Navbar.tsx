@@ -16,7 +16,7 @@ const Navbar = ({ connectMetamask, account }: any) => {
             onClick={connectMetamask}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            {account === "" ? "Connect Wallet" : `connected to ${truncateEthAddress(account)}`}
+            {account === "" ? "Connect Metamask" : `connected to ${truncateEthAddress(account)}`}
           </button>
           <button
             data-collapse-toggle="navbar-cta"
@@ -34,9 +34,9 @@ const Navbar = ({ connectMetamask, account }: any) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
           </button>

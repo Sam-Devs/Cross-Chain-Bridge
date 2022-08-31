@@ -6,7 +6,7 @@ A simple cross-chain bridge that supports from Ethereum chain (Ropsten) to Sei c
 Clone the repo using the command below:
 
 ```bash
-git clone https://gitlab.com/samoncode/sei-network
+git clone https://github.com/Sam-Devs/Cross-Chain-Bridge.git
 ```
 
 Install Packages:
